@@ -1,51 +1,31 @@
-// Lightweight local stub of the Base44 client so the app can run
-// without any external Base44 backend or configuration.
+// Data layer — backed by Neon PostgreSQL via Netlify functions.
+// All pages use base44.entities.EntityName.list/filter/create/update/delete
+// so the same interface is preserved without touching any page files.
 
-const createNoopEntity = () => ({
-  // Listing/filtering return empty arrays so UI components can safely .map()
-  list: async () => [],
-  filter: async () => [],
-  // Mutations resolve with a basic object so admin UIs don't crash
-  create: async (data) => ({ id: Date.now().toString(), ...data }),
-  update: async (id, data) => ({ id, ...data }),
-  delete: async () => true,
-});
-
-// Proxy so any entity name (City, Attraction, etc.) returns a safe stub
-const entities = new Proxy(
-  {},
-  {
-    get: () => createNoopEntity(),
-  }
-);
+import { neonBase44 } from './neonClient';
 
 export const base44 = {
-  entities,
+  entities: neonBase44.entities,
+
   auth: {
-    // Treat all users as unauthenticated in this stub
     me: async () => {
-      const error = new Error('Auth disabled in static deployment');
+      const error = new Error('Auth not configured');
       error.status = 401;
       throw error;
     },
-    redirectToLogin: () => {
-      // No-op in static deployment
-    },
-    logout: () => {
-      // No-op in static deployment
-    },
+    redirectToLogin: () => {},
+    logout: () => {},
   },
+
   appLogs: {
-    logUserInApp: async () => {
-      // Do nothing; logging should never break the app
-    },
+    logUserInApp: async () => {},
   },
+
   integrations: {
     Core: {},
   },
 };
 
-// Expose stub on window for any legacy window.base44 references
 if (typeof window !== 'undefined') {
   window.base44 = base44;
 }

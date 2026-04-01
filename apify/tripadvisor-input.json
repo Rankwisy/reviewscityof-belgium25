@@ -1,0 +1,8 @@
+{
+  "locationFullName": "Belgium",
+  "includeRestaurants": true,
+  "includeHotels": true,
+  "includeAttractions": true,
+  "maxItems": 200,
+  "language": "en_US"
+}

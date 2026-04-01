@@ -1,0 +1,30 @@
+{
+  "searchStringsArray": [
+    "restaurants Brussels Belgium",
+    "restaurants Bruges Belgium",
+    "restaurants Ghent Belgium",
+    "restaurants Antwerp Belgium",
+    "restaurants Liège Belgium",
+    "restaurants Namur Belgium",
+    "restaurants Leuven Belgium",
+    "hotels Brussels Belgium",
+    "hotels Bruges Belgium",
+    "hotels Ghent Belgium",
+    "hotels Antwerp Belgium",
+    "hotels Liège Belgium",
+    "tourist attractions Brussels Belgium",
+    "tourist attractions Bruges Belgium",
+    "tourist attractions Ghent Belgium",
+    "tourist attractions Antwerp Belgium",
+    "things to do Bruges Belgium",
+    "things to do Brussels Belgium"
+  ],
+  "maxCrawledPlacesPerSearch": 50,
+  "language": "en",
+  "maxImages": 3,
+  "exportPlaceUrls": false,
+  "includeHistogram": false,
+  "includeOpeningHours": true,
+  "includePeopleAlsoSearch": false,
+  "additionalInfo": true
+}
