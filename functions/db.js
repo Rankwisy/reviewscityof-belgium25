@@ -58,7 +58,6 @@ exports.handler = async (event) => {
   }
 
   // Block write operations from the public API (use import-apify-data for writes)
-  const READ_ONLY_METHODS = ['list', 'filter', 'get'];
   const WRITE_METHODS = ['create', 'update', 'delete'];
 
   // Only allow review creation from the public API (user submitted reviews)
@@ -72,15 +71,14 @@ exports.handler = async (event) => {
 
   try {
     let result;
+    const tbl = safeIdent(table);
 
     if (method === 'list') {
       const [sortField, limit = 100] = args;
       const { col, dir } = parseSort(sortField);
-      result = await sql`
-        SELECT * FROM ${sql(table)}
-        ORDER BY ${sql(col)} ${sql.unsafe(dir)}
-        LIMIT ${limit}
-      `;
+      const raw = `SELECT * FROM ${tbl} ORDER BY ${safeIdent(col)} ${dir} LIMIT $1`;
+      const res = await sql.query(raw, [limit]);
+      result = res.rows;
     }
 
     else if (method === 'filter') {
@@ -89,26 +87,22 @@ exports.handler = async (event) => {
       const entries = Object.entries(conditions);
 
       if (entries.length === 0) {
-        result = await sql`
-          SELECT * FROM ${sql(table)}
-          ORDER BY ${sql(col)} ${sql.unsafe(dir)}
-          LIMIT ${limit}
-        `;
+        const raw = `SELECT * FROM ${tbl} ORDER BY ${safeIdent(col)} ${dir} LIMIT $1`;
+        const res = await sql.query(raw, [limit]);
+        result = res.rows;
       } else {
-        // Build WHERE clause dynamically
-        // Use a raw query with parameterized values for safety
         const whereParts = entries.map(([k], i) => `${safeIdent(k)} = $${i + 1}`).join(' AND ');
         const values = entries.map(([, v]) => v);
-        const raw = `SELECT * FROM ${safeIdent(table)} WHERE ${whereParts} ORDER BY ${safeIdent(col)} ${dir} LIMIT $${values.length + 1}`;
-        result = await sql.query(raw, [...values, limit]);
-        result = result.rows;
+        const raw = `SELECT * FROM ${tbl} WHERE ${whereParts} ORDER BY ${safeIdent(col)} ${dir} LIMIT $${values.length + 1}`;
+        const res = await sql.query(raw, [...values, limit]);
+        result = res.rows;
       }
     }
 
     else if (method === 'get') {
       const [id] = args;
-      result = await sql`SELECT * FROM ${sql(table)} WHERE id = ${id} LIMIT 1`;
-      result = result[0] ?? null;
+      const res = await sql.query(`SELECT * FROM ${tbl} WHERE id = $1 LIMIT 1`, [id]);
+      result = res.rows[0] ?? null;
     }
 
     else if (method === 'create' && allowWrite) {
@@ -118,7 +112,7 @@ exports.handler = async (event) => {
       const cols = Object.keys(data).map(safeIdent).join(', ');
       const vals = Object.values(data);
       const placeholders = vals.map((_, i) => `$${i + 1}`).join(', ');
-      const raw = `INSERT INTO ${safeIdent(table)} (${cols}) VALUES (${placeholders}) RETURNING *`;
+      const raw = `INSERT INTO ${tbl} (${cols}) VALUES (${placeholders}) RETURNING *`;
       const res = await sql.query(raw, vals);
       result = res.rows[0];
     }
