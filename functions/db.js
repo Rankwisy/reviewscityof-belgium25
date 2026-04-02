@@ -77,8 +77,7 @@ exports.handler = async (event) => {
       const [sortField, limit = 100] = args;
       const { col, dir } = parseSort(sortField);
       const raw = `SELECT * FROM ${tbl} ORDER BY ${safeIdent(col)} ${dir} LIMIT $1`;
-      const res = await sql.query(raw, [limit]);
-      result = res.rows;
+      result = await sql.query(raw, [limit]);
     }
 
     else if (method === 'filter') {
@@ -88,21 +87,19 @@ exports.handler = async (event) => {
 
       if (entries.length === 0) {
         const raw = `SELECT * FROM ${tbl} ORDER BY ${safeIdent(col)} ${dir} LIMIT $1`;
-        const res = await sql.query(raw, [limit]);
-        result = res.rows;
+        result = await sql.query(raw, [limit]);
       } else {
         const whereParts = entries.map(([k], i) => `${safeIdent(k)} = $${i + 1}`).join(' AND ');
         const values = entries.map(([, v]) => v);
         const raw = `SELECT * FROM ${tbl} WHERE ${whereParts} ORDER BY ${safeIdent(col)} ${dir} LIMIT $${values.length + 1}`;
-        const res = await sql.query(raw, [...values, limit]);
-        result = res.rows;
+        result = await sql.query(raw, [...values, limit]);
       }
     }
 
     else if (method === 'get') {
       const [id] = args;
-      const res = await sql.query(`SELECT * FROM ${tbl} WHERE id = $1 LIMIT 1`, [id]);
-      result = res.rows[0] ?? null;
+      const rows = await sql.query(`SELECT * FROM ${tbl} WHERE id = $1 LIMIT 1`, [id]);
+      result = rows[0] ?? null;
     }
 
     else if (method === 'create' && allowWrite) {
@@ -113,8 +110,8 @@ exports.handler = async (event) => {
       const vals = Object.values(data);
       const placeholders = vals.map((_, i) => `$${i + 1}`).join(', ');
       const raw = `INSERT INTO ${tbl} (${cols}) VALUES (${placeholders}) RETURNING *`;
-      const res = await sql.query(raw, vals);
-      result = res.rows[0];
+      const rows = await sql.query(raw, vals);
+      result = rows[0];
     }
 
     return {
