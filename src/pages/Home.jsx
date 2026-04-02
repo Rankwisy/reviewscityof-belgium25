@@ -19,20 +19,12 @@ import { useTranslation } from './translations';
 
 export default function Home() {
   const [user, setUser] = useState(null);
-  const [currentSlide, setCurrentSlide] = useState(0);
   const [isVisible, setIsVisible] = useState({});
   const { language } = useLanguage();
   const t = useTranslation(language);
 
   useEffect(() => {
     base44.auth.me().then(setUser).catch(() => setUser(null));
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % 3);
-    }, 5000);
-    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -93,29 +85,6 @@ export default function Home() {
 
   const upcomingEvents = events.filter(event => event.start_date && isFuture(parseISO(event.start_date)));
 
-  const heroSlides = [
-    {
-      title: t('home.welcomeTitle'),
-      subtitle: t('home.welcomeSubtitle'),
-      image: "https://images.unsplash.com/photo-1513581166391-887a96ddeafd?w=1920&q=80",
-      alt: "Stunning panoramic view of Brussels Grand Place at golden hour with historic architecture and cobblestone square",
-      cta: t('home.startExploring')
-    },
-    {
-      title: t('home.medievalTitle'),
-      subtitle: t('home.medievalSubtitle'),
-      image: "https://images.unsplash.com/photo-1605305089278-e92b9c7bb2a9?w=1920&q=80",
-      alt: "Picturesque medieval canal in Bruges with colorful traditional houses and stone bridge reflection in water",
-      cta: t('home.discoverCities')
-    },
-    {
-      title: t('home.tasteTitle'),
-      subtitle: t('home.tasteSubtitle'),
-      image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1920&q=80",
-      alt: "Elegant Belgian restaurant interior with fine dining setup, ambient lighting, and traditional European décor",
-      cta: t('home.findRestaurants')
-    }
-  ];
 
   const stats = [
     { number: "50+", label: t('home.citiesAndTowns'), icon: MapPin },
@@ -134,21 +103,14 @@ export default function Home() {
 
       {/* Premium Hero Section */}
       <section className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
-        {heroSlides.map((slide, index) => (
-          <div
-            key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ${
-              currentSlide === index ? 'opacity-100' : 'opacity-0'
-            }`}
-          >
-            <img
-              src={slide.image}
-              alt={slide.alt}
-              className="w-full h-full object-cover scale-110 animate-ken-burns"
-            />
-            <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/50 to-transparent" />
-          </div>
-        ))}
+        <div className="absolute inset-0">
+          <img
+            src="https://ik.imagekit.io/9nqnnkvba/cityreview.be.jpg"
+            alt="Belgium travel guide — discover cities, restaurants, hotels and attractions"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/50 to-transparent" />
+        </div>
 
         <div className="absolute top-20 right-20 w-64 h-64 bg-gradient-to-br from-[var(--primary-orange)] to-[var(--primary-yellow)] opacity-20 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-20 left-20 w-96 h-96 bg-gradient-to-tr from-blue-500 to-purple-500 opacity-10 rounded-full blur-3xl" style={{animation: 'float 8s ease-in-out infinite'}}></div>
@@ -161,11 +123,11 @@ export default function Home() {
             </Badge>
             
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
-              {heroSlides[currentSlide].title}
+              {t('home.welcomeTitle')}
             </h1>
-            
+
             <p className="text-xl md:text-2xl text-white/90 mb-8">
-              {heroSlides[currentSlide].subtitle}
+              {t('home.welcomeSubtitle')}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto mb-6">
@@ -177,7 +139,7 @@ export default function Home() {
                 />
               </div>
               <Button size="lg" className="h-14 px-8 bg-gradient-to-r from-[var(--primary-orange)] to-[var(--primary-yellow)] hover:shadow-2xl hover:scale-105 transition-all duration-300 text-white border-0 text-lg font-semibold">
-                {heroSlides[currentSlide].cta}
+                {t('home.startExploring')}
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </div>
@@ -205,18 +167,6 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-3 z-20">
-          {heroSlides.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentSlide(index)}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                currentSlide === index ? 'w-12 bg-white' : 'w-2 bg-white/50'
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
-        </div>
       </section>
 
       {/* Stats Section */}
