@@ -221,7 +221,7 @@ exports.handler = async (event) => {
     .map(item => mapper(item, entityType, citySlug))
     .filter(r => r.name && r.slug);
 
-  const sql = neon(process.env.DATABASE_URL);
+  const sql = neon(process.env.NETLIFY_DATABASE_URL || process.env.DATABASE_URL);
   const imported = await upsertBatch(sql, table, records);
 
   return {

@@ -68,7 +68,7 @@ exports.handler = async (event) => {
     return { statusCode: 403, body: 'Write access not allowed via public API' };
   }
 
-  const sql = neon(process.env.DATABASE_URL);
+  const sql = neon(process.env.NETLIFY_DATABASE_URL || process.env.DATABASE_URL);
 
   try {
     let result;
