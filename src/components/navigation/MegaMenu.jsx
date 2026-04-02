@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import {
   MapPin, Eye, Utensils, Calendar, ChevronRight, Star,
-  TrendingUp, Briefcase, Hotel
+  TrendingUp, Briefcase, Hotel, Trophy, Bus
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
@@ -180,7 +180,33 @@ export default function MegaMenu() {
           title: 'Browse',
           items: [
             { label: 'All Services', url: createPageUrl('LocalServices'), icon: Briefcase },
+            { label: 'Transport Guide', url: '/localservices/transport', icon: Bus },
             { label: 'Verified Businesses', url: createPageUrl('LocalServices') + '?verified=true', icon: Star }
+          ]
+        }
+      ]
+    },
+    sports: {
+      title: 'Sports',
+      icon: Trophy,
+      sections: [
+        {
+          title: 'Sports Events',
+          items: [
+            { label: 'All Sports Events', url: createPageUrl('Events') + '?category=Sports', icon: Trophy },
+            { label: 'Football', url: createPageUrl('Events') + '?category=Sports&sport=football', icon: Trophy },
+            { label: 'Cycling', url: createPageUrl('Events') + '?category=Sports&sport=cycling', icon: Trophy },
+            { label: 'Tennis', url: createPageUrl('Events') + '?category=Sports&sport=tennis', icon: Trophy },
+            { label: 'Athletics', url: createPageUrl('Events') + '?category=Sports&sport=athletics', icon: Trophy },
+            { label: 'Winter Sports', url: createPageUrl('Events') + '?category=Sports&sport=winter', icon: Trophy },
+          ]
+        },
+        {
+          title: 'Browse',
+          items: [
+            { label: 'All Events', url: createPageUrl('Events'), icon: Calendar },
+            { label: 'This Weekend', url: createPageUrl('Events') + '?time=weekend', icon: TrendingUp },
+            { label: 'Free Events', url: createPageUrl('Events') + '?price=free', icon: Star }
           ]
         }
       ]
@@ -265,6 +291,7 @@ export default function MegaMenu() {
       <MenuItem menuKey="restaurants" label="Restaurants" icon={Utensils} />
       <MenuItem menuKey="hotels" label="Hotels" icon={Hotel} />
       <MenuItem menuKey="events" label="Events" icon={Calendar} />
+      <MenuItem menuKey="sports" label="Sports" icon={Trophy} />
       <MenuItem menuKey="services" label="Services" icon={Briefcase} />
     </nav>
   );

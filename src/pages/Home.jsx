@@ -9,8 +9,8 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { 
   MapPin, Compass, Users, Mail, Star, TrendingUp, Sparkles,
-  Award, Heart, ArrowRight, Search, Calendar, ChevronRight, 
-  Briefcase, CheckCircle, Clock, Phone, Globe
+  Award, Heart, ArrowRight, Search, Calendar, ChevronRight,
+  Briefcase, CheckCircle, Clock, Phone, Globe, Trophy, Bus
 } from 'lucide-react';
 import SEO from '../components/SEO';
 import { format, parseISO, isFuture } from 'date-fns';
@@ -323,6 +323,40 @@ export default function Home() {
                 </p>
                 <Badge className="bg-white text-purple-600 font-semibold">
                   {t('home.featuredEvents')}
+                </Badge>
+              </div>
+            </Link>
+
+            <Link
+              to={createPageUrl('Events') + '?category=Sports'}
+              className="group relative overflow-hidden rounded-2xl hover-lift h-64 border-2 border-dashed border-green-500"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-green-600 to-emerald-500" />
+              <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
+                <Trophy className="h-12 w-12 text-white mb-3 group-hover:scale-110 transition-transform" />
+                <h3 className="text-white font-bold text-2xl mb-2">Sports Events</h3>
+                <p className="text-white/90 text-sm mb-3">
+                  Live matches, races & sporting events across Belgium
+                </p>
+                <Badge className="bg-white text-green-600 font-semibold">
+                  Explore Sports
+                </Badge>
+              </div>
+            </Link>
+
+            <Link
+              to="/localservices/transport"
+              className="group relative overflow-hidden rounded-2xl hover-lift h-64 border-2 border-dashed border-blue-500"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-cyan-500" />
+              <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
+                <Bus className="h-12 w-12 text-white mb-3 group-hover:scale-110 transition-transform" />
+                <h3 className="text-white font-bold text-2xl mb-2">Transport</h3>
+                <p className="text-white/90 text-sm mb-3">
+                  Trains, buses, trams & cycling guides for Belgium
+                </p>
+                <Badge className="bg-white text-blue-600 font-semibold">
+                  Get Around
                 </Badge>
               </div>
             </Link>
