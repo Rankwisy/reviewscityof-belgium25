@@ -286,12 +286,14 @@ export default function MyFavorites() {
 }
 
 function RestaurantCard({ restaurant }) {
-  const mainImage = restaurant.images?.[0] || 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80';
-  
+  const mainImage = restaurant.images?.[0] || restaurant.image
+    || 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80';
+
   return (
     <div className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow">
       <div className="relative h-48">
-        <img src={mainImage} alt={restaurant.name} className="w-full h-full object-cover" />
+        <img src={mainImage} alt={restaurant.name} className="w-full h-full object-cover"
+          onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80'; }} />
       </div>
       <div className="p-4">
         <h3 className="text-lg font-bold mb-2">{restaurant.name}</h3>
@@ -303,12 +305,14 @@ function RestaurantCard({ restaurant }) {
 }
 
 function HotelCard({ hotel }) {
-  const mainImage = hotel.images?.[0] || 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80';
-  
+  const mainImage = hotel.images?.[0] || hotel.image
+    || 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80';
+
   return (
     <div className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow">
       <div className="relative h-48">
-        <img src={mainImage} alt={hotel.name} className="w-full h-full object-cover" />
+        <img src={mainImage} alt={hotel.name} className="w-full h-full object-cover"
+          onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80'; }} />
       </div>
       <div className="p-4">
         <h3 className="text-lg font-bold mb-2">{hotel.name}</h3>

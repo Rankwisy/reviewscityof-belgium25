@@ -129,9 +129,8 @@ export default function Restaurants() {
 }
 
 function RestaurantCard({ restaurant }) {
-  const mainImage = restaurant.images && restaurant.images.length > 0 
-    ? restaurant.images[0] 
-    : 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80';
+  const mainImage = restaurant.images?.[0] || restaurant.image
+    || 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80';
 
   return (
     <div className="group bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
@@ -140,6 +139,7 @@ function RestaurantCard({ restaurant }) {
           src={mainImage}
           alt={restaurant.name}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+          onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80'; }}
         />
         <Badge className="absolute top-3 right-3 bg-white text-gray-800">
           {restaurant.price_range}

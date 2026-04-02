@@ -90,7 +90,7 @@ function mapGoogleMaps(item, entityType, citySlug) {
     phone: item.phone || null,
     website: item.website || null,
     image: item.imageUrl || item.images?.[0] || null,
-    images: item.images || [],
+    images: item.images?.length > 0 ? item.images : (item.imageUrl ? [item.imageUrl] : []),
     latitude: item.location?.lat ?? null,
     longitude: item.location?.lng ?? null,
     source: 'google_maps',

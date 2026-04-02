@@ -563,9 +563,10 @@ function RestaurantCard({ restaurant }) {
     <Card className="overflow-hidden hover:shadow-lg transition-shadow group">
       <div className="relative h-48">
         <img
-          src={restaurant.images?.[0] || 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80'}
+          src={restaurant.images?.[0] || restaurant.image || 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80'}
           alt={restaurant.name}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+          onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80'; }}
         />
         {restaurant.rating && (
           <Badge className="absolute top-3 right-3 bg-white text-gray-900">
@@ -589,9 +590,10 @@ function HotelCard({ hotel }) {
     <Card className="overflow-hidden hover:shadow-lg transition-shadow group">
       <div className="relative h-48">
         <img
-          src={hotel.images?.[0] || 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80'}
+          src={hotel.images?.[0] || hotel.image || 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80'}
           alt={hotel.name}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+          onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80'; }}
         />
         {hotel.rating && (
           <Badge className="absolute top-3 right-3 bg-white text-gray-900">
