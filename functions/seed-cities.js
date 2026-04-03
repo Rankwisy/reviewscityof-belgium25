@@ -33,7 +33,7 @@ Brussels is the undisputed capital of Belgian gastronomy. Indulge in authentic B
 
 The city's cultural diversity makes it endlessly fascinating — more than 180 nationalities call Brussels home, creating a rich tapestry of restaurants, markets and street life unlike anywhere else in Europe.`,
     hero_image:
-      'https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=1600&q=80',
+      'https://images.unsplash.com/photo-1652275998409-0f9360a7a66f?w=1600&q=80',
     rating: 4.7,
     region: 'Brussels-Capital Region',
     population: 1200000,
