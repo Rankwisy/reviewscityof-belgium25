@@ -481,7 +481,7 @@ function AttractionCard({ attraction }) {
       <Card className="overflow-hidden hover:shadow-lg transition-shadow group">
         <div className="relative h-48">
           <img
-            src={attraction.images?.[0] || 'https://images.unsplash.com/photo-1605305089278-e92b9c7bb2a9?w=800&q=80'}
+            src={attraction.images?.[0] || attraction.image || 'https://images.unsplash.com/photo-1605305089278-e92b9c7bb2a9?w=800&q=80'}
             alt={attraction.name}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
           />

@@ -4,10 +4,20 @@ import { createPageUrl } from '@/utils';
 import { Star, Clock, MapPin, Phone, Globe } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
+const CATEGORY_FALLBACKS = {
+  'Museums & Galleries':       'https://images.unsplash.com/photo-1554907984-15263bfd63bd?w=800&q=80',
+  'Historical Sites':          'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=800&q=80',
+  'Parks & Nature':            'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800&q=80',
+  'Nightlife & Entertainment': 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80',
+  'Tours & Experiences':       'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800&q=80',
+};
+const DEFAULT_ATTRACTION_FALLBACK = 'https://images.unsplash.com/photo-1605305089278-e92b9c7bb2a9?w=800&q=80';
+
 export default function AttractionCard({ attraction }) {
-  const mainImage = attraction.images && attraction.images.length > 0 
-    ? attraction.images[0] 
-    : 'https://images.unsplash.com/photo-1605305089278-e92b9c7bb2a9?w=800&h=600&fit=crop&q=80';
+  const mainImage = attraction.images?.[0]
+    || attraction.image
+    || CATEGORY_FALLBACKS[attraction.category]
+    || DEFAULT_ATTRACTION_FALLBACK;
 
   const contactPhone = attraction.contact_phone || attraction.phone;
   const websiteUrl = attraction.website_url || attraction.website;
@@ -21,7 +31,7 @@ export default function AttractionCard({ attraction }) {
             alt={`${attraction.name} - Popular ${attraction.category} attraction in ${attraction.city_slug}, Belgium`}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             onError={(e) => {
-              e.target.src = 'https://images.unsplash.com/photo-1605305089278-e92b9c7bb2a9?w=800&h=600&fit=crop&q=80';
+              e.target.src = CATEGORY_FALLBACKS[attraction.category] || DEFAULT_ATTRACTION_FALLBACK;
             }}
           />
           <Badge className="absolute top-3 right-3 bg-white text-gray-800">

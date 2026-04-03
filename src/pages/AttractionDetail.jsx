@@ -92,9 +92,8 @@ export default function AttractionDetail() {
     );
   }
 
-  const mainImage = attraction.images && attraction.images.length > 0 
-    ? attraction.images[0] 
-    : 'https://images.unsplash.com/photo-1605305089278-e92b9c7bb2a9?w=1600&q=80';
+  const mainImage = attraction.images?.[0] || attraction.image
+    || 'https://images.unsplash.com/photo-1605305089278-e92b9c7bb2a9?w=1600&q=80';
 
   const contactPhone = attraction.contact_phone || attraction.phone;
   const websiteUrl = attraction.website_url || attraction.website;
@@ -478,9 +477,8 @@ export default function AttractionDetail() {
 }
 
 function RelatedAttractionCard({ attraction }) {
-  const mainImage = attraction.images && attraction.images.length > 0 
-    ? attraction.images[0] 
-    : 'https://images.unsplash.com/photo-1605305089278-e92b9c7bb2a9?w=800&q=80';
+  const mainImage = attraction.images?.[0] || attraction.image
+    || 'https://images.unsplash.com/photo-1605305089278-e92b9c7bb2a9?w=800&q=80';
 
   return (
     <Link to={createPageUrl('AttractionDetail') + '?slug=' + attraction.slug}>

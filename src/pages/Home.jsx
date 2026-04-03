@@ -376,7 +376,7 @@ export default function Home() {
                 <Card className="overflow-hidden hover-lift h-full border-0 shadow-xl">
                   <div className="relative h-56 overflow-hidden">
                     <img
-                      src={attraction.images?.[0] || 'https://images.unsplash.com/photo-1605305089278-e92b9c7bb2a9?w=800&q=80'}
+                      src={attraction.images?.[0] || attraction.image || 'https://images.unsplash.com/photo-1605305089278-e92b9c7bb2a9?w=800&q=80'}
                       alt={`${attraction.name} in ${attraction.city_slug}, Belgium - ${attraction.category} attraction`}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     />

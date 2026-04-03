@@ -304,7 +304,7 @@ export default function CityDetail() {
                       <Card className="hover:shadow-xl transition-all duration-300 group h-full">
                         <div className="relative h-40 overflow-hidden">
                           <img
-                            src={attraction.images?.[0] || 'https://images.unsplash.com/photo-1605305089278-e92b9c7bb2a9?w=800&q=80'}
+                            src={attraction.images?.[0] || attraction.image || 'https://images.unsplash.com/photo-1605305089278-e92b9c7bb2a9?w=800&q=80'}
                             alt={attraction.name}
                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                           />
@@ -353,7 +353,7 @@ export default function CityDetail() {
                     <Card key={restaurant.id} className="hover:shadow-xl transition-all duration-300 group h-full">
                       <div className="relative h-40 overflow-hidden">
                         <img
-                          src={restaurant.images?.[0] || 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80'}
+                          src={restaurant.images?.[0] || restaurant.image || 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80'}
                           alt={restaurant.name}
                           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                         />
@@ -842,9 +842,8 @@ function BusinessCard({ business }) {
 }
 
 function CuisineCard({ restaurant, t }) {
-  const mainImage = restaurant.images && restaurant.images.length > 0
-    ? restaurant.images[0]
-    : 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80';
+  const mainImage = restaurant.images?.[0] || restaurant.image
+    || 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80';
 
   return (
     <div className="group bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
