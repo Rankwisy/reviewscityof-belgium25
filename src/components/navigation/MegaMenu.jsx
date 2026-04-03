@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { useQuery } from '@tanstack/react-query';
@@ -12,12 +12,11 @@ import { Badge } from '@/components/ui/badge';
 export default function MegaMenu() {
   const [activeMenu, setActiveMenu] = useState(null);
 
-  // Fixed: Use .list() and filter in JavaScript instead of .filter({ featured: true })
   const { data: cities = [] } = useQuery({
     queryKey: ['mega-menu-cities'],
     queryFn: async () => {
       const allCities = await base44.entities.City.list('-name', 50);
-      return allCities.filter(city => city.featured === true).slice(0, 8);
+      return allCities.slice(0, 8);
     },
   });
 
@@ -214,13 +213,22 @@ export default function MegaMenu() {
   };
 
   const MenuItem = ({ menuKey, label, icon: Icon }) => {
+    const leaveTimer = useRef(null);
     const isActive = activeMenu === menuKey;
-    
+
+    const handleEnter = () => {
+      clearTimeout(leaveTimer.current);
+      setActiveMenu(menuKey);
+    };
+    const handleLeave = () => {
+      leaveTimer.current = setTimeout(() => setActiveMenu(null), 150);
+    };
+
     return (
       <div
         className="relative"
-        onMouseEnter={() => setActiveMenu(menuKey)}
-        onMouseLeave={() => setActiveMenu(null)}
+        onMouseEnter={handleEnter}
+        onMouseLeave={handleLeave}
       >
         <button className="text-gray-700 hover:text-[var(--primary-orange)] transition-all duration-300 font-medium px-4 py-2 flex items-center gap-2 relative group">
           <Icon className="h-4 w-4" />
@@ -229,10 +237,10 @@ export default function MegaMenu() {
         </button>
 
         {isActive && (
-          <div 
+          <div
             className="absolute top-full left-0 pt-2 z-50 animate-in slide-in-from-top-2 duration-200"
-            onMouseEnter={() => setActiveMenu(menuKey)}
-            onMouseLeave={() => setActiveMenu(null)}
+            onMouseEnter={handleEnter}
+            onMouseLeave={handleLeave}
           >
             <div className="bg-white rounded-xl shadow-2xl border border-gray-100 p-6 min-w-[600px]">
               <div className="grid grid-cols-2 gap-8">
