@@ -43,11 +43,15 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
+  const FEATURED_SLUGS = ['brussels', 'bruges', 'antwerp', 'ghent'];
   const { data: cities = [] } = useQuery({
-    queryKey: ['cities', 'featured'],
+    queryKey: ['cities', 'featured-four'],
     queryFn: async () => {
       const allCities = await base44.entities.City.list('-created_date', 100);
-      return allCities.filter(city => city.featured === true).slice(0, 8);
+      // Return exactly the 4 hero cities in the desired order
+      return FEATURED_SLUGS
+        .map(slug => allCities.find(c => c.slug === slug))
+        .filter(Boolean);
     },
   });
 
@@ -212,21 +216,16 @@ export default function Home() {
             </p>
           </div>
 
-          {/* 4 fixed city cards: Brussels, Bruges, Antwerp, Ghent */}
+          {/* 4 city cards — images pulled from DB (same as each city detail page hero) */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { name: 'Brussels',  slug: 'brussels', tagline: 'Capital of Europe',        image: 'https://images.unsplash.com/photo-1491557345352-5929e343eb89?w=800&q=80' },
-              { name: 'Bruges',    slug: 'bruges',   tagline: 'The Venice of the North',  image: 'https://images.unsplash.com/photo-1548574505-5e239809ee19?w=800&q=80' },
-              { name: 'Antwerp',   slug: 'antwerp',  tagline: 'Diamond Capital of the World', image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800&q=80' },
-              { name: 'Ghent',     slug: 'ghent',    tagline: 'Medieval Gem of Flanders', image: 'https://images.unsplash.com/photo-1565060169194-19fabf63012c?w=800&q=80' },
-            ].map((city) => (
+            {cities.map((city) => (
               <Link
                 key={city.slug}
                 to={createPageUrl('CityDetail') + '?city=' + city.slug}
                 className="group relative overflow-hidden rounded-2xl hover-lift h-80"
               >
                 <img
-                  src={city.image}
+                  src={city.hero_image || city.thumbnail_image}
                   alt={`${city.name}, Belgium — ${city.tagline}`}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
