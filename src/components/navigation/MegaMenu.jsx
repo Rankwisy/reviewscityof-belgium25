@@ -11,6 +11,16 @@ import { Badge } from '@/components/ui/badge';
 
 export default function MegaMenu() {
   const [activeMenu, setActiveMenu] = useState(null);
+  const leaveTimer = useRef(null); // single shared timer for all menu items
+
+  const handleMenuEnter = (menuKey) => {
+    clearTimeout(leaveTimer.current);
+    setActiveMenu(menuKey);
+  };
+
+  const handleMenuLeave = () => {
+    leaveTimer.current = setTimeout(() => setActiveMenu(null), 200);
+  };
 
   const { data: cities = [] } = useQuery({
     queryKey: ['mega-menu-cities'],
@@ -212,95 +222,89 @@ export default function MegaMenu() {
     }
   };
 
-  const MenuItem = ({ menuKey, label, icon: Icon }) => {
-    const leaveTimer = useRef(null);
-    const isActive = activeMenu === menuKey;
-
-    const handleEnter = () => {
-      clearTimeout(leaveTimer.current);
-      setActiveMenu(menuKey);
-    };
-    const handleLeave = () => {
-      leaveTimer.current = setTimeout(() => setActiveMenu(null), 150);
-    };
-
-    return (
-      <div
-        className="relative"
-        onMouseEnter={handleEnter}
-        onMouseLeave={handleLeave}
-      >
-        <button className="text-gray-700 hover:text-[var(--primary-orange)] transition-all duration-300 font-medium px-4 py-2 flex items-center gap-2 relative group">
-          <Icon className="h-4 w-4" />
-          {label}
-          <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[var(--primary-orange)] to-[var(--primary-yellow)] group-hover:w-full transition-all duration-300"></span>
-        </button>
-
-        {isActive && (
-          <div
-            className="absolute top-full left-0 pt-2 z-50 animate-in slide-in-from-top-2 duration-200"
-            onMouseEnter={handleEnter}
-            onMouseLeave={handleLeave}
-          >
-            <div className="bg-white rounded-xl shadow-2xl border border-gray-100 p-6 min-w-[600px]">
-              <div className="grid grid-cols-2 gap-8">
-                {menus[menuKey].sections.map((section, idx) => (
-                  <div key={idx}>
-                    <h3 className="text-sm font-bold text-gray-900 mb-4 flex items-center gap-2">
-                      {section.title}
-                    </h3>
-                    <ul className="space-y-2">
-                      {section.items.map((item, itemIdx) => (
-                        <li key={itemIdx}>
-                          <Link
-                            to={item.url}
-                            className="flex items-center gap-2 text-gray-600 hover:text-[var(--primary-orange)] transition-colors group py-1"
-                            onClick={() => setActiveMenu(null)}
-                          >
-                            <item.icon className="h-4 w-4 opacity-50 group-hover:opacity-100" />
-                            <div className="flex-1">
-                              <span className="text-sm font-medium">{item.label}</span>
-                              {item.subtitle && (
-                                <p className="text-xs text-gray-500">{item.subtitle}</p>
-                              )}
-                            </div>
-                            <ChevronRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-
-              {/* Featured Banner */}
-              <div className="mt-6 pt-6 border-t border-gray-100">
-                <div className="bg-gradient-to-r from-[var(--primary-orange)]/10 to-[var(--primary-yellow)]/10 rounded-lg p-4 flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-bold text-gray-900">Need help planning?</p>
-                    <p className="text-xs text-gray-600">Ask our AI Travel Assistant</p>
-                  </div>
-                  <Badge className="bg-gradient-to-r from-[var(--primary-orange)] to-[var(--primary-yellow)] text-white">
-                    Ask AI
-                  </Badge>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    );
-  };
+  const navItems = [
+    { menuKey: 'cities',      label: 'Cities',      icon: MapPin   },
+    { menuKey: 'attractions', label: 'Attractions', icon: Eye      },
+    { menuKey: 'restaurants', label: 'Restaurants', icon: Utensils },
+    { menuKey: 'hotels',      label: 'Hotels',      icon: Hotel    },
+    { menuKey: 'events',      label: 'Events',      icon: Calendar },
+    { menuKey: 'sports',      label: 'Sports',      icon: Trophy   },
+    { menuKey: 'services',    label: 'Services',    icon: Briefcase},
+  ];
 
   return (
     <nav className="hidden lg:flex items-center space-x-2">
-      <MenuItem menuKey="cities" label="Cities" icon={MapPin} />
-      <MenuItem menuKey="attractions" label="Attractions" icon={Eye} />
-      <MenuItem menuKey="restaurants" label="Restaurants" icon={Utensils} />
-      <MenuItem menuKey="hotels" label="Hotels" icon={Hotel} />
-      <MenuItem menuKey="events" label="Events" icon={Calendar} />
-      <MenuItem menuKey="sports" label="Sports" icon={Trophy} />
-      <MenuItem menuKey="services" label="Services" icon={Briefcase} />
+      {navItems.map(({ menuKey, label, icon: Icon }) => {
+        const isActive = activeMenu === menuKey;
+        return (
+          <div
+            key={menuKey}
+            className="relative"
+            onMouseEnter={() => handleMenuEnter(menuKey)}
+            onMouseLeave={handleMenuLeave}
+          >
+            {/* Trigger button */}
+            <button className="text-gray-700 hover:text-[var(--primary-orange)] transition-all duration-300 font-medium px-4 py-2 flex items-center gap-2 relative group">
+              <Icon className="h-4 w-4" />
+              {label}
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[var(--primary-orange)] to-[var(--primary-yellow)] group-hover:w-full transition-all duration-300"></span>
+            </button>
+
+            {/* Dropdown — negative margin pulls it up to remove gap, padding restores visual spacing */}
+            {isActive && (
+              <div
+                className="absolute top-full left-0 z-50 animate-in slide-in-from-top-2 duration-200"
+                style={{ marginTop: '-4px', paddingTop: '8px' }}
+              >
+                <div className="bg-white rounded-xl shadow-2xl border border-gray-100 p-6 min-w-[600px]">
+                  <div className="grid grid-cols-2 gap-8">
+                    {menus[menuKey].sections.map((section, idx) => (
+                      <div key={idx}>
+                        <h3 className="text-sm font-bold text-gray-900 mb-4 flex items-center gap-2">
+                          {section.title}
+                        </h3>
+                        <ul className="space-y-2">
+                          {section.items.map((item, itemIdx) => (
+                            <li key={itemIdx}>
+                              <Link
+                                to={item.url}
+                                className="flex items-center gap-2 text-gray-600 hover:text-[var(--primary-orange)] transition-colors group py-1"
+                                onClick={() => setActiveMenu(null)}
+                              >
+                                <item.icon className="h-4 w-4 opacity-50 group-hover:opacity-100" />
+                                <div className="flex-1">
+                                  <span className="text-sm font-medium">{item.label}</span>
+                                  {item.subtitle && (
+                                    <p className="text-xs text-gray-500">{item.subtitle}</p>
+                                  )}
+                                </div>
+                                <ChevronRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Featured Banner */}
+                  <div className="mt-6 pt-6 border-t border-gray-100">
+                    <div className="bg-gradient-to-r from-[var(--primary-orange)]/10 to-[var(--primary-yellow)]/10 rounded-lg p-4 flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-bold text-gray-900">Need help planning?</p>
+                        <p className="text-xs text-gray-600">Ask our AI Travel Assistant</p>
+                      </div>
+                      <Badge className="bg-gradient-to-r from-[var(--primary-orange)] to-[var(--primary-yellow)] text-white">
+                        Ask AI
+                      </Badge>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      })}
     </nav>
   );
 }
