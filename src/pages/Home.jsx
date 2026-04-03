@@ -212,123 +212,29 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            {cities.slice(0, 2).map((city, index) => (
+          {/* 4 fixed city cards: Brussels, Bruges, Antwerp, Ghent */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { name: 'Brussels',  slug: 'brussels', tagline: 'Capital of Europe',        image: 'https://images.unsplash.com/photo-1491557345352-5929e343eb89?w=800&q=80' },
+              { name: 'Bruges',    slug: 'bruges',   tagline: 'The Venice of the North',  image: 'https://images.unsplash.com/photo-1548574505-5e239809ee19?w=800&q=80' },
+              { name: 'Antwerp',   slug: 'antwerp',  tagline: 'Diamond Capital of the World', image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800&q=80' },
+              { name: 'Ghent',     slug: 'ghent',    tagline: 'Medieval Gem of Flanders', image: 'https://images.unsplash.com/photo-1565060169194-19fabf63012c?w=800&q=80' },
+            ].map((city) => (
               <Link
-                key={city.id}
+                key={city.slug}
                 to={createPageUrl('CityDetail') + '?city=' + city.slug}
-                className="group relative overflow-hidden rounded-2xl hover-lift md:col-span-2 h-96"
+                className="group relative overflow-hidden rounded-2xl hover-lift h-80"
               >
                 <img
-                  src={city.thumbnail_image || city.hero_image}
-                  alt={`Scenic view of ${city.name}, Belgium - ${city.tagline}`}
+                  src={city.image}
+                  alt={`${city.name}, Belgium — ${city.tagline}`}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <h3 className="text-white font-bold mb-2 text-4xl">
-                    {city.name}
-                  </h3>
-                  <p className="text-white/90 text-sm mb-3">{city.tagline}</p>
-                  <div className="flex items-center text-white/80 text-sm">
-                    <MapPin className="h-4 w-4 mr-1" />
-                    {t('home.belgium')}
-                    <ChevronRight className="h-4 w-4 ml-auto group-hover:translate-x-2 transition-transform" />
-                  </div>
-                </div>
-              </Link>
-            ))}
-
-            <Link
-              to={createPageUrl('LocalServices')}
-              className="group relative overflow-hidden rounded-2xl hover-lift h-64 border-2 border-dashed border-[var(--primary-orange)]"
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary-orange)] to-[var(--primary-yellow)]" />
-              <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
-                <Briefcase className="h-12 w-12 text-white mb-3 group-hover:scale-110 transition-transform" />
-                <h3 className="text-white font-bold text-2xl mb-2">
-                  {t('home.localServicesTitle')}
-                </h3>
-                <p className="text-white/90 text-sm mb-3">
-                  {t('home.localServicesDesc')}
-                </p>
-                <Badge className="bg-white text-[var(--primary-orange)] font-semibold">
-                  {t('home.featuredService')}
-                </Badge>
-              </div>
-            </Link>
-
-            <Link
-              to={createPageUrl('Events')}
-              className="group relative overflow-hidden rounded-2xl hover-lift h-64 border-2 border-dashed border-purple-500"
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-600 to-pink-600" />
-              <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
-                <Calendar className="h-12 w-12 text-white mb-3 group-hover:scale-110 transition-transform" />
-                <h3 className="text-white font-bold text-2xl mb-2">
-                  {t('home.upcomingEventsTitle')}
-                </h3>
-                <p className="text-white/90 text-sm mb-3">
-                  {t('home.upcomingEventsDesc')}
-                </p>
-                <Badge className="bg-white text-purple-600 font-semibold">
-                  {t('home.featuredEvents')}
-                </Badge>
-              </div>
-            </Link>
-
-            <Link
-              to={createPageUrl('Events') + '?category=Sports'}
-              className="group relative overflow-hidden rounded-2xl hover-lift h-64 border-2 border-dashed border-green-500"
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-green-600 to-emerald-500" />
-              <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
-                <Trophy className="h-12 w-12 text-white mb-3 group-hover:scale-110 transition-transform" />
-                <h3 className="text-white font-bold text-2xl mb-2">Sports Events</h3>
-                <p className="text-white/90 text-sm mb-3">
-                  Live matches, races & sporting events across Belgium
-                </p>
-                <Badge className="bg-white text-green-600 font-semibold">
-                  Explore Sports
-                </Badge>
-              </div>
-            </Link>
-
-            <Link
-              to="/localservices/transport"
-              className="group relative overflow-hidden rounded-2xl hover-lift h-64 border-2 border-dashed border-blue-500"
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-cyan-500" />
-              <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
-                <Bus className="h-12 w-12 text-white mb-3 group-hover:scale-110 transition-transform" />
-                <h3 className="text-white font-bold text-2xl mb-2">Transport</h3>
-                <p className="text-white/90 text-sm mb-3">
-                  Trains, buses, trams & cycling guides for Belgium
-                </p>
-                <Badge className="bg-white text-blue-600 font-semibold">
-                  Get Around
-                </Badge>
-              </div>
-            </Link>
-
-            {cities.slice(2, 8).map((city) => (
-              <Link
-                key={city.id}
-                to={createPageUrl('CityDetail') + '?city=' + city.slug}
-                className="group relative overflow-hidden rounded-2xl hover-lift h-64"
-              >
-                <img
-                  src={city.thumbnail_image || city.hero_image}
-                  alt={`Discover ${city.name}, Belgium - ${city.tagline}`}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <h3 className="text-white font-bold mb-2 text-2xl">
-                    {city.name}
-                  </h3>
-                  <p className="text-white/90 text-sm mb-3">{city.tagline}</p>
-                  <div className="flex items-center text-white/80 text-sm">
+                  <h3 className="text-white font-bold mb-1 text-3xl">{city.name}</h3>
+                  <p className="text-white/80 text-sm mb-3">{city.tagline}</p>
+                  <div className="flex items-center text-white/70 text-sm">
                     <MapPin className="h-4 w-4 mr-1" />
                     {t('home.belgium')}
                     <ChevronRight className="h-4 w-4 ml-auto group-hover:translate-x-2 transition-transform" />
@@ -411,6 +317,61 @@ export default function Home() {
                 </Card>
               </Link>
             ))}
+          </div>
+
+          {/* Explore more — promo cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
+            <Link
+              to={createPageUrl('LocalServices')}
+              className="group relative overflow-hidden rounded-2xl hover-lift h-48"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary-orange)] to-[var(--primary-yellow)]" />
+              <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
+                <Briefcase className="h-10 w-10 text-white mb-3 group-hover:scale-110 transition-transform" />
+                <h3 className="text-white font-bold text-xl mb-1">{t('home.localServicesTitle')}</h3>
+                <p className="text-white/85 text-xs mb-3">{t('home.localServicesDesc')}</p>
+                <Badge className="bg-white text-[var(--primary-orange)] font-semibold text-xs">{t('home.featuredService')}</Badge>
+              </div>
+            </Link>
+
+            <Link
+              to={createPageUrl('Events')}
+              className="group relative overflow-hidden rounded-2xl hover-lift h-48"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-600 to-pink-600" />
+              <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
+                <Calendar className="h-10 w-10 text-white mb-3 group-hover:scale-110 transition-transform" />
+                <h3 className="text-white font-bold text-xl mb-1">{t('home.upcomingEventsTitle')}</h3>
+                <p className="text-white/85 text-xs mb-3">{t('home.upcomingEventsDesc')}</p>
+                <Badge className="bg-white text-purple-600 font-semibold text-xs">{t('home.featuredEvents')}</Badge>
+              </div>
+            </Link>
+
+            <Link
+              to={createPageUrl('Events') + '?category=Sports'}
+              className="group relative overflow-hidden rounded-2xl hover-lift h-48"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-green-600 to-emerald-500" />
+              <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
+                <Trophy className="h-10 w-10 text-white mb-3 group-hover:scale-110 transition-transform" />
+                <h3 className="text-white font-bold text-xl mb-1">Sports Events</h3>
+                <p className="text-white/85 text-xs mb-3">Live matches, races & sporting events across Belgium</p>
+                <Badge className="bg-white text-green-600 font-semibold text-xs">Explore Sports</Badge>
+              </div>
+            </Link>
+
+            <Link
+              to="/localservices/transport"
+              className="group relative overflow-hidden rounded-2xl hover-lift h-48"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-cyan-500" />
+              <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
+                <Bus className="h-10 w-10 text-white mb-3 group-hover:scale-110 transition-transform" />
+                <h3 className="text-white font-bold text-xl mb-1">Transport</h3>
+                <p className="text-white/85 text-xs mb-3">Trains, buses, trams & cycling guides for Belgium</p>
+                <Badge className="bg-white text-blue-600 font-semibold text-xs">Get Around</Badge>
+              </div>
+            </Link>
           </div>
 
           <div className="text-center mt-12">
