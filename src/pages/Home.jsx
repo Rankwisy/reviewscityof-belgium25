@@ -687,8 +687,19 @@ export default function Home() {
       )}
 
       {/* Newsletter CTA */}
-      <section className="py-20 px-4 bg-gradient-to-r from-[var(--primary-orange)] via-[var(--primary-yellow)] to-[var(--accent-brown)] relative overflow-hidden">
-        <div className="absolute inset-0 opacity-20">
+      <section className="py-20 px-4 relative overflow-hidden">
+        {/* Background — Bruges hero image from DB (same photo as city detail page) */}
+        {cities[1]?.hero_image && (
+          <img
+            src={cities[1].hero_image}
+            alt="Bruges, Belgium"
+            className="absolute inset-0 w-full h-full object-cover animate-ken-burns"
+          />
+        )}
+        {/* Gradient colour overlay — keeps brand palette while letting photo show through */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[var(--primary-orange)]/75 via-[var(--primary-yellow)]/60 to-[var(--accent-brown)]/75" />
+        {/* Soft light blobs on top */}
+        <div className="absolute inset-0 opacity-15 pointer-events-none">
           <div className="absolute top-10 left-10 w-64 h-64 bg-white rounded-full blur-3xl float-animation"></div>
           <div className="absolute bottom-10 right-10 w-96 h-96 bg-white rounded-full blur-3xl" style={{animation: 'float 10s ease-in-out infinite', animationDelay: '2s'}}></div>
         </div>
