@@ -8,7 +8,7 @@ import { MapPin, Users, Calendar, Languages, Star, ChevronRight, Utensils, Brief
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 import { useLanguage } from './LanguageContext';
 import { useTranslation } from './translations';
@@ -22,8 +22,8 @@ import Breadcrumbs from '../components/navigation/Breadcrumbs';
 import SocialShare from '../components/SocialShare';
 
 export default function CityDetail() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const citySlug = urlParams.get('city') || 'brussels';
+  const [searchParams] = useSearchParams();
+  const citySlug = searchParams.get('city') || 'brussels';
   const { language } = useLanguage();
   const t = useTranslation(language);
   const [user, setUser] = useState(null);
