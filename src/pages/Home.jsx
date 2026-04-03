@@ -63,6 +63,18 @@ export default function Home() {
     },
   });
 
+  // Dedicated background image for the newsletter section — picks the best
+  // Bruges attraction photo from the DB (real Google Maps image from scraping)
+  const { data: newsletterBg = 'https://images.unsplash.com/photo-1548574505-5e239809ee19?w=1600&q=80' } = useQuery({
+    queryKey: ['newsletter-bg'],
+    queryFn: async () => {
+      const rows = await base44.entities.Attraction.list('-rating', 50);
+      const pick = rows.find(a => a.city_slug === 'bruges' && (a.image || a.images?.[0]));
+      return pick?.image || pick?.images?.[0]
+        || 'https://images.unsplash.com/photo-1548574505-5e239809ee19?w=1600&q=80';
+    },
+  });
+
   const { data: businesses = [] } = useQuery({
     queryKey: ['businesses', 'featured'],
     queryFn: async () => {
@@ -688,17 +700,15 @@ export default function Home() {
 
       {/* Newsletter CTA */}
       <section className="py-20 px-4 relative overflow-hidden">
-        {/* Background — Bruges hero image from DB (same photo as city detail page) */}
+        {/* Background — Bruges attraction photo from DB */}
         <img
-          src={
-            cities.find(c => c.slug === 'bruges')?.hero_image ||
-            'https://images.unsplash.com/photo-1491557345352-5929e343eb89?w=1600&q=80'
-          }
+          src={newsletterBg}
           alt="Bruges, Belgium"
           className="absolute inset-0 w-full h-full object-cover animate-ken-burns"
         />
-        {/* Gradient colour overlay — keeps brand palette while letting photo show through */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[var(--primary-orange)]/75 via-[var(--primary-yellow)]/60 to-[var(--accent-brown)]/75" />
+        {/* Dark overlay so text stays readable, then a subtle brand tint */}
+        <div className="absolute inset-0 bg-black/45" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[var(--primary-orange)]/40 via-transparent to-[var(--accent-brown)]/40" />
         {/* Soft light blobs on top */}
         <div className="absolute inset-0 opacity-15 pointer-events-none">
           <div className="absolute top-10 left-10 w-64 h-64 bg-white rounded-full blur-3xl float-animation"></div>
