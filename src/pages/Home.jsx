@@ -689,13 +689,14 @@ export default function Home() {
       {/* Newsletter CTA */}
       <section className="py-20 px-4 relative overflow-hidden">
         {/* Background — Bruges hero image from DB (same photo as city detail page) */}
-        {cities[1]?.hero_image && (
-          <img
-            src={cities[1].hero_image}
-            alt="Bruges, Belgium"
-            className="absolute inset-0 w-full h-full object-cover animate-ken-burns"
-          />
-        )}
+        <img
+          src={
+            cities.find(c => c.slug === 'bruges')?.hero_image ||
+            'https://images.unsplash.com/photo-1491557345352-5929e343eb89?w=1600&q=80'
+          }
+          alt="Bruges, Belgium"
+          className="absolute inset-0 w-full h-full object-cover animate-ken-burns"
+        />
         {/* Gradient colour overlay — keeps brand palette while letting photo show through */}
         <div className="absolute inset-0 bg-gradient-to-r from-[var(--primary-orange)]/75 via-[var(--primary-yellow)]/60 to-[var(--accent-brown)]/75" />
         {/* Soft light blobs on top */}
