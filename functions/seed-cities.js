@@ -113,7 +113,7 @@ Ghent is a student city, with over 70,000 students at Ghent University infusing 
 
 Every July, the Gentse Feesten (Ghent Festival) transforms the entire city into a ten-day street party with over 1.5 million visitors, free concerts on every square and a carnival atmosphere that is utterly unique in Europe. Outside festival season, the city's cycling culture, independent shops and innovative restaurant scene make it one of Belgium's most rewarding urban destinations.`,
     hero_image:
-      'https://images.unsplash.com/photo-1581351721010-8cf859cb14a4?w=1600&q=80',
+      'https://images.unsplash.com/photo-1662730092147-2a3e9efd2d72?w=1600&q=80',
     rating: 4.7,
     region: 'East Flanders',
     population: 265000,
