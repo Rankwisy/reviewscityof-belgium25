@@ -33,7 +33,7 @@ Brussels is the undisputed capital of Belgian gastronomy. Indulge in authentic B
 
 The city's cultural diversity makes it endlessly fascinating — more than 180 nationalities call Brussels home, creating a rich tapestry of restaurants, markets and street life unlike anywhere else in Europe.`,
     hero_image:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Grand-Place_panorama.jpg/1600px-Grand-Place_panorama.jpg',
+      'https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=1600&q=80',
     rating: 4.7,
     region: 'Brussels-Capital Region',
     population: 1200000,
@@ -59,7 +59,7 @@ Bruges is the spiritual home of Belgian chocolate. The city's chocolatiers are l
 
 With an exceptional network of cycling paths running through the surrounding Flemish countryside, Bruges is also the ideal base for exploring picturesque villages, polders and the North Sea coast just 15 kilometres away.`,
     hero_image:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Brujas%2C_Minnewater_04.jpg/1600px-Brujas%2C_Minnewater_04.jpg',
+      'https://images.unsplash.com/photo-1491557345352-5929e343eb89?w=1600&q=80',
     rating: 4.8,
     region: 'West Flanders',
     population: 117000,
@@ -87,7 +87,7 @@ The city has reinvented itself as a world fashion capital. The Royal Academy of 
 
 Don't miss the MAS (Museum aan de Stroom), an extraordinary red sandstone tower overlooking the Scheldt river, or the spectacular Port House — a diamond-shaped glass structure by Zaha Hadid perched atop a converted fire station.`,
     hero_image:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Amberes%3B_vistas_MAS_2.jpg/1600px-Amberes%3B_vistas_MAS_2.jpg',
+      'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80',
     rating: 4.6,
     region: 'Antwerp Province',
     population: 530000,
@@ -113,7 +113,7 @@ Ghent is a student city, with over 70,000 students at Ghent University infusing 
 
 Every July, the Gentse Feesten (Ghent Festival) transforms the entire city into a ten-day street party with over 1.5 million visitors, free concerts on every square and a carnival atmosphere that is utterly unique in Europe. Outside festival season, the city's cycling culture, independent shops and innovative restaurant scene make it one of Belgium's most rewarding urban destinations.`,
     hero_image:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Panorama_of_Ghent_from_the_Belfort.jpg/1600px-Panorama_of_Ghent_from_the_Belfort.jpg',
+      'https://images.unsplash.com/photo-1581351721010-8cf859cb14a4?w=1600&q=80',
     rating: 4.7,
     region: 'East Flanders',
     population: 265000,
